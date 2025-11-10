@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var todos: [String] = ["Swift öğren", "SwiftUI ile uygulama yap"]
     @State private var newTodo: String = ""
+    @State private var completedTodos: [String] = ["Uyan"]
     
     var body: some View {
         NavigationStack {
@@ -34,9 +35,21 @@ struct ContentView: View {
                         Text(todo)
                     }
                     .onDelete(perform: deleteTodo)
+                    ForEach(Array(completedTodos.enumerated()), id: \.element) { index, todo in
+                            Text(todo)
+                                .strikethrough(true, color: .gray)
+                                .italic()
+                                .foregroundColor(.gray)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    Button("Geri Al") {
+                                        reAddTodo(at: IndexSet(integer: index))
+                                    }
+                                    .tint(.blue)
+                                }
+                        }
                 }
             }
-            .navigationTitle("📋 Yapılacaklar")
+//            .navigationTitle("📋 Yapılacaklar")
         }
     }
     
@@ -48,7 +61,19 @@ struct ContentView: View {
     }
     
     private func deleteTodo(at offsets: IndexSet) {
+        for index in offsets {
+            let completedTodo = todos[index]
+            completedTodos.append(completedTodo)
+        }
         todos.remove(atOffsets: offsets)
+    }
+    
+    private func reAddTodo(at offsets: IndexSet) {
+        for index in offsets {
+            let todo = completedTodos[index]
+            todos.append(todo)
+        }
+        completedTodos.remove(atOffsets: offsets)
     }
 }
 
