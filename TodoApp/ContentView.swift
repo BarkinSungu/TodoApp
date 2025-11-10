@@ -8,9 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
-        @State var todos: [String] = ["Swift öğren", "SwiftUI ile uygulama yap"]
-    //    @State private var newTodo: String = ""
-        @State private var completedTodos: [String] = ["Uyan"]
+    struct Task: Identifiable, Hashable {
+        let id: UUID = UUID()             // Benzersiz kimlik
+        var title: String                 // Görev başlığı
+        var lastCompletedDate: Date?      // Son tamamlanma tarihi (opsiyonel)
+        var frequency: String             // Örn: "Günlük", "Haftalık"
+        var duration: Int                 // Süre (dakika cinsinden)
+    }
+    
+    @State var tasks = [
+        Task(title: "Swift öğren", lastCompletedDate: nil, frequency: "Günlük", duration: 60),
+        Task(title: "Egzersiz yap", lastCompletedDate: Date(), frequency: "Haftalık", duration: 30),
+        Task(title: "Kitap oku", lastCompletedDate: nil, frequency: "Günlük", duration: 45)
+    ]
+    @State var completedTasks = [
+        Task(title: "Uyan", lastCompletedDate: nil, frequency: "Günlük", duration: 5)
+    ]
+//        @State var todos: [String] = ["Swift öğren", "SwiftUI ile uygulama yap"]
+//        @State private var completedTodos: [String] = ["Uyan"]
     @State private var showAddTodoSheet = false
 
     
@@ -31,8 +46,8 @@ struct ContentView: View {
                             .foregroundColor(.blue)
                     }
                     .sheet(isPresented: $showAddTodoSheet) {
-                        AddTodoSheetView{ newTodo in
-                            addTodo(newTodo)
+                        AddTaskSheetView{ newTask in
+                            addTask(newTask)
                         }
                         .presentationDetents([.large]) // Yükseklik: ekranın %40'ı
                         .presentationDragIndicator(.visible)   // Üstte sürükleme çubuğu
@@ -42,21 +57,30 @@ struct ContentView: View {
                 
                 // Liste
                 List {
-                    ForEach(todos, id: \.self) { todo in
-                        Text(todo)
-                    }
-                    .onDelete(perform: deleteTodo)
-                    ForEach(Array(completedTodos.enumerated()), id: \.element) { index, todo in
-                            Text(todo)
-                                .strikethrough(true, color: .gray)
-                                .italic()
-                                .foregroundColor(.gray)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    Button("Geri Al") {
-                                        reAddTodo(at: IndexSet(integer: index))
-                                    }
-                                    .tint(.blue)
+                    ForEach(tasks, id: \.self) { task in
+                        Text(task.title)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button {
+                                    completeTask(id: task.id)
+                                } label: {
+                                    Label("Tamamla", systemImage: "checkmark")
                                 }
+                                .tint(.green) // yeşil buton
+                            }
+                    }
+                    ForEach(Array(completedTasks.enumerated()), id: \.element) { index, task in
+                        Text(task.title)
+                            .strikethrough(true, color: .gray)
+                            .italic()
+                            .foregroundColor(.gray)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button {
+                                    uncompleteTask(id: task.id)
+                                } label: {
+                                    Label("Geri Al", systemImage: "arrow.uturn.backward")
+                                }
+                                .tint(.blue)
+                            }
                         }
                 }
             }
@@ -65,29 +89,28 @@ struct ContentView: View {
     }
     
     // MARK: - Functions
-    func addTodo(_ newTodo: String) {
-        guard !newTodo.isEmpty else { return }
-        todos.append(newTodo)
+    func addTask(_ newTaskTitle: String) {
+//        guard !newTask.isEmpty else { return }
+        let task = Task(title: newTaskTitle, lastCompletedDate: nil, frequency: "Günlük", duration: 60)
+        tasks.append(task)
     }
     
-    private func deleteTodo(at offsets: IndexSet) {
-        for index in offsets {
-            let completedTodo = todos[index]
-            completedTodos.append(completedTodo)
+    private func completeTask(id: UUID) {
+        if let index = tasks.firstIndex(where: { $0.id == id }) {
+            let completed = tasks.remove(at: index)
+            completedTasks.append(completed)
         }
-        todos.remove(atOffsets: offsets)
     }
     
-    private func reAddTodo(at offsets: IndexSet) {
-        for index in offsets {
-            let todo = completedTodos[index]
-            todos.append(todo)
+    private func uncompleteTask(id: UUID) {
+        if let index = completedTasks.firstIndex(where: { $0.id == id }) {
+            let uncompleted = completedTasks.remove(at: index)
+            tasks.append(uncompleted)
         }
-        completedTodos.remove(atOffsets: offsets)
     }
 }
 
-struct AddTodoSheetView: View {
+struct AddTaskSheetView: View {
     @Environment(\.dismiss) var dismiss
     @State private var newTodo = ""
     var onAdd: (String) -> Void  // 👈 Closure tanımı
