@@ -70,9 +70,9 @@
 				DA4E2BAA2ECC9B2D00784479 /* AddTaskSheetView.swift */,
 				DA4E2BAC2ECC9B3C00784479 /* BottomBar.swift */,
 				DA4E2BAE2ECC9B5900784479 /* TaskModel.swift */,
+				DA4E2BB02ECCA8B800784479 /* TaskStorage.swift */,
 				DAEF7C862E5AFFE6001129C0 /* Assets.xcassets */,
 				DAEF7C882E5AFFE6001129C0 /* Preview Content */,
-				DA4E2BB02ECCA8B800784479 /* TaskStorage.swift */,
 			);
 			path = TodoApp;
 			sourceTree = "<group>";

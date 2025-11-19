@@ -19,9 +19,9 @@ struct ContentView: View {
 
             // --- SAYFALAR ---
             if selectedTab == 0 {
-                TodayView(tasks: $tasks, completedTasks: $completedTasks, storage: storage)
+                TodayView(tasks: $tasks, storage: storage)
             } else {
-                AllTasksView(tasks: $tasks, completedTasks: $completedTasks, storage: storage)
+                AllTasksView(tasks: $tasks, storage: storage)
             }
 
             // --- ALT BAR ---
@@ -32,18 +32,13 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showAddSheet) {
             AddTaskSheetView { title in
-                let newTask = Task(title: title, lastCompletedDate: nil, frequency: "Günlük", duration: 60)
+                let newTask = Task(title: title, lastCompletedDate: nil, frequency: 1, duration: 60)
                 tasks.append(newTask)
                 storage.saveTasks(tasks)
             }
         }
         .onAppear {
             tasks = storage.loadTasks()
-            completedTasks = storage.loadCompletedTasks()
         }
     }
 }
-
-
-
-
