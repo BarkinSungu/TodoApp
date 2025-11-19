@@ -1,8 +1,29 @@
-//
-//  AllTasksView.swift
-//  TodoApp
-//
-//  Created by Barkın Süngü on 18.11.2025.
-//
+import SwiftUI
 
-import Foundation
+struct AllTasksView: View {
+    @Binding var tasks: [Task]
+    @Binding var completedTasks: [Task]
+    let storage: TaskStorage
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section("Tamamlanmamış") {
+                    ForEach(tasks) { task in
+                        Text(task.title)
+                    }
+                }
+
+                Section("Tamamlananlar") {
+                    ForEach(completedTasks) { task in
+                        Text(task.title)
+                            .strikethrough()
+                            .foregroundColor(.gray)
+                            .italic()
+                    }
+                }
+            }
+            .navigationTitle("Tüm Görevler")
+        }
+    }
+}

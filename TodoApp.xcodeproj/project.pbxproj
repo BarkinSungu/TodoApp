@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA4E2BA72ECC9B0200784479 /* AllTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BA62ECC9B0200784479 /* AllTasksView.swift */; };
+		DA4E2BA92ECC9B1A00784479 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BA82ECC9B1A00784479 /* TodayView.swift */; };
+		DA4E2BAB2ECC9B2D00784479 /* AddTaskSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BAA2ECC9B2D00784479 /* AddTaskSheetView.swift */; };
+		DA4E2BAD2ECC9B3C00784479 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BAC2ECC9B3C00784479 /* BottomBar.swift */; };
+		DA4E2BAF2ECC9B5900784479 /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BAE2ECC9B5900784479 /* TaskModel.swift */; };
+		DA4E2BB12ECCA8B800784479 /* TaskStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BB02ECCA8B800784479 /* TaskStorage.swift */; };
 		DAEF7C832E5AFFE4001129C0 /* TodoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEF7C822E5AFFE4001129C0 /* TodoAppApp.swift */; };
 		DAEF7C852E5AFFE4001129C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEF7C842E5AFFE4001129C0 /* ContentView.swift */; };
 		DAEF7C872E5AFFE6001129C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAEF7C862E5AFFE6001129C0 /* Assets.xcassets */; };
@@ -14,6 +20,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA4E2BA62ECC9B0200784479 /* AllTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksView.swift; sourceTree = "<group>"; };
+		DA4E2BA82ECC9B1A00784479 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		DA4E2BAA2ECC9B2D00784479 /* AddTaskSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskSheetView.swift; sourceTree = "<group>"; };
+		DA4E2BAC2ECC9B3C00784479 /* BottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
+		DA4E2BAE2ECC9B5900784479 /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
+		DA4E2BB02ECCA8B800784479 /* TaskStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStorage.swift; sourceTree = "<group>"; };
 		DAEF7C7F2E5AFFE4001129C0 /* TodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEF7C822E5AFFE4001129C0 /* TodoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppApp.swift; sourceTree = "<group>"; };
 		DAEF7C842E5AFFE4001129C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,8 +65,14 @@
 			children = (
 				DAEF7C822E5AFFE4001129C0 /* TodoAppApp.swift */,
 				DAEF7C842E5AFFE4001129C0 /* ContentView.swift */,
+				DA4E2BA62ECC9B0200784479 /* AllTasksView.swift */,
+				DA4E2BA82ECC9B1A00784479 /* TodayView.swift */,
+				DA4E2BAA2ECC9B2D00784479 /* AddTaskSheetView.swift */,
+				DA4E2BAC2ECC9B3C00784479 /* BottomBar.swift */,
+				DA4E2BAE2ECC9B5900784479 /* TaskModel.swift */,
 				DAEF7C862E5AFFE6001129C0 /* Assets.xcassets */,
 				DAEF7C882E5AFFE6001129C0 /* Preview Content */,
+				DA4E2BB02ECCA8B800784479 /* TaskStorage.swift */,
 			);
 			path = TodoApp;
 			sourceTree = "<group>";
@@ -137,8 +155,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA4E2BA72ECC9B0200784479 /* AllTasksView.swift in Sources */,
 				DAEF7C852E5AFFE4001129C0 /* ContentView.swift in Sources */,
+				DA4E2BAD2ECC9B3C00784479 /* BottomBar.swift in Sources */,
+				DA4E2BA92ECC9B1A00784479 /* TodayView.swift in Sources */,
+				DA4E2BB12ECCA8B800784479 /* TaskStorage.swift in Sources */,
+				DA4E2BAB2ECC9B2D00784479 /* AddTaskSheetView.swift in Sources */,
 				DAEF7C832E5AFFE4001129C0 /* TodoAppApp.swift in Sources */,
+				DA4E2BAF2ECC9B5900784479 /* TaskModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
