@@ -11,6 +11,9 @@ struct ContentView: View {
 
     @State private var tasks: [Task] = []
     @State private var completedTasks: [Task] = []
+    
+    @State private var selectedTask: Task? = nil
+    @State private var showTaskDetailSheet = false
 
     private let storage = TaskStorage()
 
@@ -21,7 +24,19 @@ struct ContentView: View {
             if selectedTab == 0 {
                 TodayView(tasks: $tasks, storage: storage)
             } else {
-                AllTasksView(tasks: $tasks, storage: storage)
+                AllTasksView(tasks: $tasks, storage: storage, onTaskTap: { task in
+                    selectedTask = task})
+                .sheet(item: $selectedTask) {
+                    task in
+                        TaskDetailSheetView(
+                            task: task,
+                            onDelete: { task in
+                                deleteTask(task)
+                            }, onSave: { updatedTask in
+                                updateTask(updatedTask)
+                            }
+                        )
+                }
             }
 
             // --- ALT BAR ---
@@ -41,5 +56,27 @@ struct ContentView: View {
             tasks = storage.loadTasks()
             print(tasks)
         }
+    }
+    
+    func updateTask(_ updatedTask: Task) {
+        if let index = tasks.firstIndex(where: { $0.id == updatedTask.id }) {
+            tasks[index] = updatedTask
+            storage.saveTasks(tasks)
+        }
+    }
+    
+    func deleteTask(_ task: Task) {
+        if let index = tasks.firstIndex(where: { $0.id == task.id }) {
+            tasks.remove(at: index)
+            storage.saveTasks(tasks)
+        }
+    }
+}
+
+extension Date {
+    func asDayMonthYear() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"   // GÜN.AY.YIL
+        return formatter.string(from: self)
     }
 }
