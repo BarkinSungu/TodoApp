@@ -31,14 +31,15 @@ struct ContentView: View {
             )
         }
         .sheet(isPresented: $showAddSheet) {
-            AddTaskSheetView { title in
-                let newTask = Task(title: title, lastCompletedDate: nil, frequency: 1, duration: 60)
+            AddTaskSheetView { title, frequency in
+                let newTask = Task(title: title, lastCompletedDate: nil, frequency: frequency, duration: 60)
                 tasks.append(newTask)
                 storage.saveTasks(tasks)
             }
         }
         .onAppear {
             tasks = storage.loadTasks()
+            print(tasks)
         }
     }
 }
