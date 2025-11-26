@@ -15,6 +15,8 @@ struct ContentView: View {
     @State private var selectedTask: Task? = nil
     @State private var showTaskDetailSheet = false
 
+    @Environment(\.scenePhase) private var scenePhase
+
     private let storage = TaskStorage()
 
     var body: some View {
@@ -32,8 +34,10 @@ struct ContentView: View {
                             task: task,
                             onDelete: { task in
                                 deleteTask(task)
+                                refresh()
                             }, onSave: { updatedTask in
                                 updateTask(updatedTask)
+                                refresh()
                             }
                         )
                 }
@@ -50,11 +54,17 @@ struct ContentView: View {
                 let newTask = Task(title: title, lastCompletedDate: nil, frequency: frequency, duration: 60)
                 tasks.append(newTask)
                 storage.saveTasks(tasks)
+                refresh()
             }
         }
         .onAppear {
             tasks = storage.loadTasks()
             print(tasks)
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .active {
+                refresh()
+            }
         }
     }
     
@@ -71,12 +81,16 @@ struct ContentView: View {
             storage.saveTasks(tasks)
         }
     }
+
+    private func refresh() {
+        tasks = storage.loadTasks()
+    }
 }
 
 extension Date {
     func asDayMonthYear() -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy"   // GÜN.AY.YIL
+        formatter.dateFormat = "dd.MM.yyyy"
         return formatter.string(from: self)
     }
 }
