@@ -42,6 +42,8 @@ struct TodayView: View {
         if let index = tasks.firstIndex(where: { $0.id == id }) {
             tasks[index].lastCompletedDate = todayDateOnly()
             tasks[index].nextTime = Calendar.current.date(byAdding: .day, value: tasks[index].frequency, to: todayDateOnly())!
+            tasks[index].totalTime = tasks[index].totalTime + tasks[index].duration
+            tasks[index].totalDoneCount = tasks[index].totalDoneCount + 1
             storage.saveTasks(tasks)
             print(tasks)
         }

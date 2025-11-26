@@ -14,6 +14,7 @@ struct TaskDetailSheetView: View {
             Text("Görev Detayları")
                 .font(.headline)
             
+            VStack(alignment: .leading, spacing: 12){
             TextField("Görev başlığı", text: $task.title)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
@@ -28,12 +29,22 @@ struct TaskDetailSheetView: View {
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
             
+            Text("Bu görev için \(formatDuration(minutes: task.totalTime)) ayrıldı.")
+                .foregroundColor(.gray)
+                .padding(.horizontal)
+            
+            Text("Bu görev \(task.totalDoneCount) defa tamamlandı.")
+                .foregroundColor(.gray)
+                .padding(.horizontal)
+            
             if let date = task.lastCompletedDate {
                 Text("Son Tamamlama: \(date.asDayMonthYear())")
                     .foregroundColor(.gray)
+                    .padding(.horizontal)
             } else {
                 Text("Henüz tamamlanmamış")
                     .foregroundColor(.gray)
+                    .padding(.horizontal)
             }
             
             DatePicker(
@@ -43,6 +54,7 @@ struct TaskDetailSheetView: View {
             )
             .datePickerStyle(.compact)
             .padding(.horizontal)
+            }
             
             Button("Kaydet") {
                 onSave(task)
@@ -66,5 +78,30 @@ struct TaskDetailSheetView: View {
             Button("İptal", role: .cancel) { }
         }
         .padding()
+    }
+    
+    func formatDuration(minutes: Int) -> String {
+        let days = minutes / 1440
+        let hours = (minutes % 1440) / 60
+        let mins = minutes % 60
+
+        var parts: [String] = []
+
+        if days > 0 {
+            parts.append("\(days) gün")
+        }
+        if hours > 0 {
+            parts.append("\(hours) saat")
+        }
+        if mins > 0 {
+            parts.append("\(mins) dakika")
+        }
+
+        // Eğer hepsi 0 ise 0 dakika gösterelim
+        if parts.isEmpty {
+            return "0 dakika"
+        }
+
+        return parts.joined(separator: " ")
     }
 }
