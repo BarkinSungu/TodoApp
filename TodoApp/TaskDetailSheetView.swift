@@ -36,6 +36,14 @@ struct TaskDetailSheetView: View {
                     .foregroundColor(.gray)
             }
             
+            DatePicker(
+                "Sonraki Yapılma Tarihi",
+                selection: $task.nextTime, in: Date()...,
+                displayedComponents: .date
+            )
+            .datePickerStyle(.compact)
+            .padding(.horizontal)
+            
             Button("Kaydet") {
                 onSave(task)
                 dismiss()

@@ -50,8 +50,8 @@ struct ContentView: View {
             )
         }
         .sheet(isPresented: $showAddSheet) {
-            AddTaskSheetView { title, frequency in
-                let newTask = Task(title: title, lastCompletedDate: nil, frequency: frequency, duration: 60)
+            AddTaskSheetView { title, frequency, nextTime in
+                let newTask = Task(title: title, lastCompletedDate: nil, frequency: frequency, duration: 60, nextTime: nextTime)
                 tasks.append(newTask)
                 storage.saveTasks(tasks)
                 refresh()
@@ -84,6 +84,7 @@ struct ContentView: View {
 
     private func refresh() {
         tasks = storage.loadTasks()
+        print(tasks)
     }
 }
 
@@ -94,3 +95,4 @@ extension Date {
         return formatter.string(from: self)
     }
 }
+

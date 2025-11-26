@@ -41,6 +41,7 @@ struct TodayView: View {
     private func completeTask(id: UUID) {
         if let index = tasks.firstIndex(where: { $0.id == id }) {
             tasks[index].lastCompletedDate = todayDateOnly()
+            tasks[index].nextTime = Calendar.current.date(byAdding: .day, value: tasks[index].frequency, to: todayDateOnly())!
             storage.saveTasks(tasks)
             print(tasks)
         }
@@ -65,37 +66,21 @@ struct TodayView: View {
         let today = todayDateOnly()
         
         return tasks.filter { task in
+            let lastCompletedDate = task.lastCompletedDate
+            let nextTime = task.nextTime
 
-            guard let last = task.lastCompletedDate else {
-                // Daha önce hiç yapılmamış olanlar → bugün göster
-                return true
-            }
-
-            let nextDueDate = Calendar.current.date(
-                byAdding: .day,
-                value: task.frequency,
-                to: last
-            )!
-
-            let lastDay = Calendar.current.startOfDay(for: last)
-            let nextDay = Calendar.current.startOfDay(for: nextDueDate)
-
-            // 1) Bugün yapılmış mı?
-            if lastDay == today {
+            if lastCompletedDate == today {
                 return false
             }
 
-            // 2) Sırası bugün mü?
-            if nextDay == today {
+            if nextTime == today {
                 return true
             }
 
-            // 3) Gecikmiş mi?
-            if nextDay < today {
+            if nextTime < today {
                 return true
             }
 
-            // 4) Bugünlük değil
             return false
         }
     }

@@ -11,7 +11,8 @@ struct AddTaskSheetView: View {
     @Environment(\.dismiss) var dismiss
     @State private var titleText = ""
     @State private var frequencyText: String = ""
-    var onAdd: (String, Int) -> Void
+    @State private var nextTime: Date = Calendar.current.startOfDay(for: Date())
+    var onAdd: (String, Int, Date) -> Void
 
     var body: some View {
         VStack(spacing: 20) {
@@ -23,7 +24,7 @@ struct AddTaskSheetView: View {
             
             TextField("Sıklık (gün)", text: $frequencyText)
                 .keyboardType(.numberPad) // Numeric keyboard
-                .onChange(of: frequencyText) { newValue in
+                .onChange(of: frequencyText) { oldValue, newValue in
                     // Sadece rakamları kabul et
                     let filtered = newValue.filter { $0.isNumber }
                     if filtered != newValue {
@@ -33,9 +34,15 @@ struct AddTaskSheetView: View {
                 .padding()
                 .textFieldStyle(.roundedBorder)
 
+            DatePicker("Sonraki Yapılma Tarihi", selection: $nextTime, in: Date()..., displayedComponents: [.date])
+                .datePickerStyle(.compact)
+                .padding(.horizontal)
+
+
             Button("Ekle") {
                 let freq = Int(frequencyText) ?? 0
-                onAdd(titleText, freq)
+                let next: Date = nextTime
+                onAdd(titleText, freq, next)
                 dismiss()
             }
             .buttonStyle(.borderedProminent)
@@ -43,3 +50,4 @@ struct AddTaskSheetView: View {
         .padding()
     }
 }
+
