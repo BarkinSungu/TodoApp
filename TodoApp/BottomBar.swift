@@ -3,7 +3,7 @@ import SwiftUI
 struct BottomBar: View {
     @Binding var selectedTab: Int
     @Binding var showAddSheet: Bool
-
+    
     var body: some View {
         HStack {
             Button {
@@ -15,7 +15,7 @@ struct BottomBar: View {
                 }
             }
             .frame(maxWidth: .infinity)
-
+            
             Button {
                 showAddSheet = true
             } label: {
@@ -31,7 +31,7 @@ struct BottomBar: View {
                 .padding(.bottom, 20)
             }
             .frame(maxWidth: .infinity)
-
+            
             Button {
                 selectedTab = 1 // Tüm
             } label: {

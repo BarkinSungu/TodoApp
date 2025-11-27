@@ -8,21 +8,21 @@ enum Tab {
 struct ContentView: View {
     @State private var selectedTab = 0
     @State private var showAddSheet = false
-
+    
     @State private var tasks: [Task] = []
     @State private var completedTasks: [Task] = []
     
     @State private var selectedTask: Task? = nil
     @State private var showTaskDetailSheet = false
     @State private var viewId = UUID()
-
+    
     @Environment(\.scenePhase) private var scenePhase
-
+    
     private let storage = TaskStorage()
-
+    
     var body: some View {
         VStack(spacing: 0) {
-
+            
             // --- SAYFALAR ---
             if selectedTab == 0 {
                 TodayView(tasks: $tasks, storage: storage).id(viewId)
@@ -31,19 +31,19 @@ struct ContentView: View {
                     selectedTask = task})
                 .sheet(item: $selectedTask) {
                     task in
-                        TaskDetailSheetView(
-                            task: task,
-                            onDelete: { task in
-                                deleteTask(task)
-                                refresh()
-                            }, onSave: { updatedTask in
-                                updateTask(updatedTask)
-                                refresh()
-                            }
-                        )
+                    TaskDetailSheetView(
+                        task: task,
+                        onDelete: { task in
+                            deleteTask(task)
+                            refresh()
+                        }, onSave: { updatedTask in
+                            updateTask(updatedTask)
+                            refresh()
+                        }
+                    )
                 }
             }
-
+            
             // --- ALT BAR ---
             BottomBar(
                 selectedTab: $selectedTab,
@@ -82,7 +82,7 @@ struct ContentView: View {
             storage.saveTasks(tasks)
         }
     }
-
+    
     private func refresh() {
         tasks = storage.loadTasks()
         viewId = UUID()

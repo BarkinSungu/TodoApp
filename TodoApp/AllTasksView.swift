@@ -4,7 +4,7 @@ struct AllTasksView: View {
     @Binding var tasks: [Task]
     let storage: TaskStorage
     var onTaskTap: (Task) -> Void
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -22,7 +22,7 @@ struct AllTasksView: View {
     
     func getAllTasks(tasks: [Task]) -> [Task] {
         return tasks.filter { task in
-
+            
             if (task.frequency == DateComponents(year: 0, month: 0, day: 0) && task.lastCompletedDate != nil){
                 return false
             }

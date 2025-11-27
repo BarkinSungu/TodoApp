@@ -17,9 +17,9 @@ struct TaskDetailSheetView: View {
                 .font(.headline)
             
             VStack(alignment: .leading, spacing: 12){
-            TextField("Görev başlığı", text: $task.title)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal)
+                TextField("Görev başlığı", text: $task.title)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal)
                 
                 HStack{
                     
@@ -51,7 +51,7 @@ struct TaskDetailSheetView: View {
                 .onAppear {
                     getFreq()
                 }
-            
+                
                 HStack{
                     Text("Görev Süresi:")
                     TextField("Süre (dk)", value: $task.duration, formatter: NumberFormatter())
@@ -61,33 +61,33 @@ struct TaskDetailSheetView: View {
                     Text("dk")
                 }
                 .padding(.horizontal)
-            
-            
-            Text("Bu görev için \(formatDuration(minutes: task.totalTime)) ayrıldı.")
-                .foregroundColor(.gray)
-                .padding(.horizontal)
-            
-            Text("Bu görev \(task.totalDoneCount) defa tamamlandı.")
-                .foregroundColor(.gray)
-                .padding(.horizontal)
-            
-            if let date = task.lastCompletedDate {
-                Text("Son Tamamlama: \(date.asDayMonthYear())")
+                
+                
+                Text("Bu görev için \(formatDuration(minutes: task.totalTime)) ayrıldı.")
                     .foregroundColor(.gray)
                     .padding(.horizontal)
-            } else {
-                Text("Henüz tamamlanmamış")
+                
+                Text("Bu görev \(task.totalDoneCount) defa tamamlandı.")
                     .foregroundColor(.gray)
                     .padding(.horizontal)
-            }
-            
-            DatePicker(
-                "Sonraki Yapılma Tarihi",
-                selection: $task.nextTime, in: Date()...,
-                displayedComponents: .date
-            )
-            .datePickerStyle(.compact)
-            .padding(.horizontal)
+                
+                if let date = task.lastCompletedDate {
+                    Text("Son Tamamlama: \(date.asDayMonthYear())")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                } else {
+                    Text("Henüz tamamlanmamış")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                }
+                
+                DatePicker(
+                    "Sonraki Yapılma Tarihi",
+                    selection: $task.nextTime, in: Date()...,
+                    displayedComponents: .date
+                )
+                .datePickerStyle(.compact)
+                .padding(.horizontal)
             }
             
             Button("Kaydet") {
@@ -130,9 +130,9 @@ struct TaskDetailSheetView: View {
         let days = minutes / 1440
         let hours = (minutes % 1440) / 60
         let mins = minutes % 60
-
+        
         var parts: [String] = []
-
+        
         if days > 0 {
             parts.append("\(days) gün")
         }
@@ -142,12 +142,12 @@ struct TaskDetailSheetView: View {
         if mins > 0 {
             parts.append("\(mins) dakika")
         }
-
+        
         // Eğer hepsi 0 ise 0 dakika gösterelim
         if parts.isEmpty {
             return "0 dakika"
         }
-
+        
         return parts.joined(separator: " ")
     }
     

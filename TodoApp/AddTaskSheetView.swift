@@ -53,11 +53,11 @@ struct AddTaskSheetView: View {
                 Text("dk")
             }
             .padding(.horizontal)
-
+            
             DatePicker("Sonraki Yapılma Tarihi", selection: $nextTime, in: Date()..., displayedComponents: [.date])
                 .datePickerStyle(.compact)
                 .padding(.horizontal)
-                        
+            
             Button("Ekle") {
                 var freq = DateComponents(day: 0)
                 if (selectedFrequency != nil){

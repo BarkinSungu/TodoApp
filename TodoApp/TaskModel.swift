@@ -9,7 +9,7 @@ struct Task: Identifiable, Hashable, Codable {
     var nextTime: Date
     var totalTime: Int
     var totalDoneCount: Int
-
+    
     init(title: String, lastCompletedDate: Date?, frequency: DateComponents, duration: Int, nextTime: Date, totalTime: Int, totalDoneCount: Int) {
         self.id = UUID()
         self.title = title

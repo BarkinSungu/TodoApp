@@ -3,7 +3,7 @@ import SwiftUI
 struct TodayView: View {
     @Binding var tasks: [Task]
     let storage: TaskStorage
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -15,16 +15,16 @@ struct TodayView: View {
                             .foregroundColor(.gray)
                     }
                     
-                        .swipeActions {
-                            Button {
-                                completeTask(id: task.id)
-                            } label: {
-                                Label("Tamamla", systemImage: "checkmark")
-                            }
-                            .tint(.green)
+                    .swipeActions {
+                        Button {
+                            completeTask(id: task.id)
+                        } label: {
+                            Label("Tamamla", systemImage: "checkmark")
                         }
+                        .tint(.green)
+                    }
                 }
-
+                
                 ForEach(getCompletedTasks(tasks: tasks)) { task in
                     Text(task.title)
                         .strikethrough()
@@ -35,7 +35,7 @@ struct TodayView: View {
             .navigationTitle("Bugün")
         }
     }
-
+    
     private func completeTask(id: UUID) {
         if let index = tasks.firstIndex(where: { $0.id == id }) {
             tasks[index].lastCompletedDate = todayDateOnly()
@@ -59,19 +59,19 @@ struct TodayView: View {
         return tasks.filter { task in
             let lastCompletedDate = task.lastCompletedDate
             let nextTime = task.nextTime
-
+            
             if lastCompletedDate == today {
                 return false
             }
-
+            
             if nextTime == today {
                 return true
             }
-
+            
             if nextTime < today {
                 return true
             }
-
+            
             return false
         }
     }
@@ -80,7 +80,7 @@ struct TodayView: View {
         let today = todayDateOnly()
         
         return tasks.filter { task in
-
+            
             if (task.lastCompletedDate == today){
                 return true
             }
