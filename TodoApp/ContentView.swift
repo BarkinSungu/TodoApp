@@ -51,8 +51,8 @@ struct ContentView: View {
             )
         }
         .sheet(isPresented: $showAddSheet) {
-            AddTaskSheetView { title, frequency, nextTime in
-                let newTask = Task(title: title, lastCompletedDate: nil, frequency: frequency, duration: 60, nextTime: nextTime, totalTime: 0, totalDoneCount: 0)
+            AddTaskSheetView { title, duration, frequency, nextTime in
+                let newTask = Task(title: title, lastCompletedDate: nil, frequency: frequency, duration: duration, nextTime: nextTime, totalTime: 0, totalDoneCount: 0)
                 tasks.append(newTask)
                 storage.saveTasks(tasks)
                 refresh()

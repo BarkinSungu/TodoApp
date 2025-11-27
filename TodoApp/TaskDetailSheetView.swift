@@ -3,8 +3,10 @@ import SwiftUI
 struct TaskDetailSheetView: View {
     @Environment(\.dismiss) var dismiss
     
-    @State var task: Task     // Gelen task burada düzenlenecek
+    @State var task: Task
     @State private var showDeleteAlert = false
+    @State private var selectedFrequency: Frequency? = nil
+    @State private var customDays: String = ""
     var onDelete: (Task) -> Void
     
     var onSave: (Task) -> Void
@@ -18,16 +20,48 @@ struct TaskDetailSheetView: View {
             TextField("Görev başlığı", text: $task.title)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
+                
+                HStack{
+                    
+                    Text("Sıklık:")
+                    Menu {
+                        ForEach(presetFrequencies) { freq in
+                            Button(freq.title) {
+                                selectedFrequency = freq
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Text(selectedFrequency?.title ?? "Sıklık Seçin")
+                            Spacer()
+                            Image(systemName: "chevron.down")
+                        }
+                        .padding()
+                        .background(.gray.opacity(0.2))
+                        .cornerRadius(8)
+                    }
+                    
+                    if selectedFrequency?.isCustom == true {
+                        TextField("Kaç günde bir?", text: $customDays)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(.roundedBorder)
+                    }
+                }
+                .padding(.horizontal)
+                .onAppear {
+                    getFreq()
+                }
             
-            TextField("Sıklık (gün)", value: $task.frequency, formatter: NumberFormatter())
-                .keyboardType(.numberPad)
-                .textFieldStyle(.roundedBorder)
+                HStack{
+                    Text("Görev Süresi:")
+                    TextField("Süre (dk)", value: $task.duration, formatter: NumberFormatter())
+                        .keyboardType(.numberPad)
+                        .textFieldStyle(.roundedBorder)
+                    Spacer()
+                    Text("dk")
+                }
                 .padding(.horizontal)
             
-            TextField("Süre (dk)", value: $task.duration, formatter: NumberFormatter())
-                .keyboardType(.numberPad)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal)
             
             Text("Bu görev için \(formatDuration(minutes: task.totalTime)) ayrıldı.")
                 .foregroundColor(.gray)
@@ -57,6 +91,17 @@ struct TaskDetailSheetView: View {
             }
             
             Button("Kaydet") {
+                var freq = DateComponents(day: 0)
+                if (selectedFrequency != nil){
+                    freq = selectedFrequency?.dateComponents ?? DateComponents(day: 0)
+                    if selectedFrequency?.isCustom == true, let customDaysInt = Int(customDays) {
+                        freq.day = customDaysInt
+                    }
+                }
+                if (task.frequency != freq){
+                    task.frequency = freq
+                    task.nextTime = Calendar.current.date(byAdding: task.frequency, to: Date.now)!
+                }
                 onSave(task)
                 dismiss()
             }
@@ -79,6 +124,7 @@ struct TaskDetailSheetView: View {
         }
         .padding()
     }
+    
     
     func formatDuration(minutes: Int) -> String {
         let days = minutes / 1440
@@ -103,5 +149,15 @@ struct TaskDetailSheetView: View {
         }
 
         return parts.joined(separator: " ")
+    }
+    
+    func getFreq(){
+        if let found = presetFrequencies.first(where: { $0.dateComponents == task.frequency }) {
+            selectedFrequency = found
+        }else {
+            selectedFrequency = presetFrequencies.last!
+            customDays = String(task.frequency.day!)
+        }
+        
     }
 }
