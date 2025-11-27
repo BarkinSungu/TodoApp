@@ -14,6 +14,7 @@ struct ContentView: View {
     
     @State private var selectedTask: Task? = nil
     @State private var showTaskDetailSheet = false
+    @State private var viewId = UUID()
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -24,7 +25,7 @@ struct ContentView: View {
 
             // --- SAYFALAR ---
             if selectedTab == 0 {
-                TodayView(tasks: $tasks, storage: storage)
+                TodayView(tasks: $tasks, storage: storage).id(viewId)
             } else {
                 AllTasksView(tasks: $tasks, storage: storage, onTaskTap: { task in
                     selectedTask = task})
@@ -84,6 +85,7 @@ struct ContentView: View {
 
     private func refresh() {
         tasks = storage.loadTasks()
+        viewId = UUID()
         print(tasks)
     }
 }
