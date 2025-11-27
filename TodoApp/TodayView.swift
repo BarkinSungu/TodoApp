@@ -8,7 +8,13 @@ struct TodayView: View {
         NavigationStack {
             List {
                 ForEach(getTodaysTasks(tasks: tasks)) { task in
-                    Text(task.title)
+                    HStack{
+                        Text(task.title)
+                        Spacer()
+                        Text("\(task.duration) dk")
+                            .foregroundColor(.gray)
+                    }
+                    
                         .swipeActions {
                             Button {
                                 completeTask(id: task.id)
@@ -24,14 +30,6 @@ struct TodayView: View {
                         .strikethrough()
                         .foregroundColor(.gray)
                         .italic()
-//                        .swipeActions {
-//                            Button {
-//                                uncompleteTask(id: task.id)
-//                            } label: {
-//                                Label("Geri Al", systemImage: "arrow.uturn.backward")
-//                            }
-//                            .tint(.blue)
-//                        }
                 }
             }
             .navigationTitle("Bugün")
@@ -48,15 +46,6 @@ struct TodayView: View {
             print(tasks)
         }
     }
-
-//    private func uncompleteTask(id: UUID) {
-//        if let index = completedTasks.firstIndex(where: { $0.id == id }) {
-//            let t = completedTasks.remove(at: index)
-//            tasks.append(t)
-//            storage.saveTasks(tasks)
-//            storage.saveCompletedTasks(completedTasks)
-//        }
-//    }
     
     public func todayDateOnly() -> Date {
         let calendar = Calendar.current
