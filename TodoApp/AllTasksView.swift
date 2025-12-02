@@ -23,7 +23,7 @@ struct AllTasksView: View {
     func getAllTasks(tasks: [Task]) -> [Task] {
         return tasks.filter { task in
             
-            if (task.frequency == DateComponents(year: 0, month: 0, day: 0) && task.lastCompletedDate != nil){
+            if (task.frequency == DateComponents(year: nil, month: nil, day: 0) && task.lastCompletedDate != nil){
                 return false
             }
             return true

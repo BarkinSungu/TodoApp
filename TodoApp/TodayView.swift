@@ -59,6 +59,8 @@ struct TodayView: View {
         return tasks.filter { task in
             let lastCompletedDate = task.lastCompletedDate
             let nextTime = task.nextTime
+            let frequency = task.frequency
+            let isOneTime = frequency.year == nil && frequency.month == nil && frequency.day == 0
             
             if lastCompletedDate == today {
                 return false
@@ -69,7 +71,15 @@ struct TodayView: View {
             }
             
             if nextTime < today {
-                return true
+                if isOneTime{
+                    if lastCompletedDate != nil{
+                        return false
+                    }else{
+                        return true
+                    }
+                }else{
+                    return true
+                }
             }
             
             return false
@@ -89,3 +99,4 @@ struct TodayView: View {
     }
     
 }
+
