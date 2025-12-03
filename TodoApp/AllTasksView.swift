@@ -12,12 +12,30 @@ struct AllTasksView: View {
                     .ignoresSafeArea()
                 List {
                     ForEach(getAllTasks(tasks: tasks)) { task in
-                        Button {
-                            onTaskTap(task)
-                        } label: {
-                            Text(task.title)
-                                .foregroundStyle(AppColors.primaryText)
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack{
+                                Button {
+                                    onTaskTap(task)
+                                } label: {
+                                    Text(task.title)
+                                        .foregroundStyle(AppColors.primaryText)
+                                }
+                                Spacer()
+                            }
                         }
+                        .padding(10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(AppColors.butterYellowDark.opacity(0.6))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .stroke(AppColors.primaryText.opacity(0.08), lineWidth: 1)
+                        )
+                        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
+                        .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
                     }
                     .listRowBackground(AppColors.butterYellowDark)
                 }

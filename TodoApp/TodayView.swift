@@ -11,13 +11,28 @@ struct TodayView: View {
                     .ignoresSafeArea()
                 List {
                     ForEach(getTodaysTasks(tasks: tasks)) { task in
-                        HStack{
-                            Text(task.title)
-                                .foregroundStyle(AppColors.primaryText)
-                            Spacer()
-                            Text("\(task.duration) dk")
-                                .foregroundStyle(AppColors.secondaryText)
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack{
+                                Text(task.title)
+                                    .foregroundStyle(AppColors.primaryText)
+                                Spacer()
+                                Text("\(task.duration) dk")
+                                    .foregroundStyle(AppColors.secondaryText)
+                            }
                         }
+                        .padding(14)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(AppColors.butterYellowDark.opacity(0.6))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .stroke(AppColors.primaryText.opacity(0.08), lineWidth: 1)
+                        )
+                        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
+                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
                         .swipeActions {
                             Button {
                                 completeTask(id: task.id)
@@ -26,17 +41,37 @@ struct TodayView: View {
                             }
                             .tint(.green)
                         }
-                        .listRowBackground(AppColors.butterYellowDark)
                     }
                     
                     ForEach(getCompletedTasks(tasks: tasks)) { task in
-                        Text(task.title)
-                            .strikethrough()
-                            .italic()
-                            .foregroundStyle(AppColors.secondaryText)
-                            .listRowBackground(AppColors.butterYellowDark)
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack{
+                                Text(task.title)
+                                    .strikethrough()
+                                    .italic()
+                                    .foregroundStyle(AppColors.secondaryText)
+                                Spacer()
+                                Text("\(task.duration) dk")
+                                    .foregroundStyle(AppColors.secondaryText)
+                                    .italic()
+                            }
+                        }
+                        .padding(14)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(AppColors.butterYellowDark.opacity(0.45))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .stroke(AppColors.primaryText.opacity(0.06), lineWidth: 1)
+                        )
+                        .shadow(color: Color.black.opacity(0.04), radius: 2, x: 0, y: 1)
+                        .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
                     }
                 }
+                .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .tint(.black)
             }
