@@ -10,6 +10,10 @@ public enum AppColors {
     public static let butterYellow = Color(red: 1.0, green: 0.93, blue: 0.6) // #FFE E99 ~ Butter
     public static let butterYellowLight = Color(red: 1.0, green: 0.96, blue: 0.75) // lighter for New Task screen
     public static let butterYellowDark = Color(red: 0.98, green: 0.88, blue: 0.5) // darker for list rows
+    
+    //button colors
+    public static let butterRed = Color(red: 0.95, green: 0.45, blue: 0.45)
+    public static let butterGreen = Color(red: 0.32, green: 0.6, blue: 0.36)
 
     // Generic surfaces
     public static let surface = Color.white.opacity(0.0) // placeholder if needed

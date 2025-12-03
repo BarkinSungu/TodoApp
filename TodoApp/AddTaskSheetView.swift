@@ -91,7 +91,7 @@ struct AddTaskSheetView: View {
                 .padding(.horizontal)
                 .tint(AppColors.primaryText)
 
-                Button("Ekle") {
+                Button {
                     var freq = DateComponents(day: 0)
                     if (selectedFrequency != nil){
                         freq = selectedFrequency?.dateComponents ?? DateComponents(day: 0)
@@ -102,13 +102,15 @@ struct AddTaskSheetView: View {
                     let next: Date = nextTime
                     onAdd(titleText, duration, freq, next)
                     dismiss()
+                } label :{
+                    Text("Ekle")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(AppColors.butterGreen.opacity(0.7))
+                        .foregroundStyle(AppColors.primaryText)
+                        .cornerRadius(12)
                 }
-                .padding(.horizontal)
-                .padding(.vertical, 12)
-                .frame(maxWidth: .infinity)
-                .background(AppColors.primaryText)
-                .foregroundStyle(AppColors.butterYellow)
-                .cornerRadius(12)
+                .padding(.horizontal)               
 
             }
             .padding()

@@ -22,7 +22,7 @@ struct BottomBar: View {
             } label: {
                 ZStack {
                     Circle()
-                        .foregroundStyle(AppColors.primaryText)
+                        .foregroundStyle(AppColors.butterGreen.opacity(0.9))
                         .frame(width: 70, height: 70)
                         .shadow(radius: 4)
                     Image(systemName: "plus")

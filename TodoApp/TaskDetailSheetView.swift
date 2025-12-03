@@ -125,7 +125,7 @@ struct TaskDetailSheetView: View {
                 }
                 .tint(AppColors.primaryText)
                 
-                Button("Kaydet") {
+                Button {
                     var freq = DateComponents(day: 0)
                     if (selectedFrequency != nil){
                         freq = selectedFrequency?.dateComponents ?? DateComponents(day: 0)
@@ -139,31 +139,98 @@ struct TaskDetailSheetView: View {
                     }
                     onSave(task)
                     dismiss()
+                } label: {
+                    Text("Kaydet")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(AppColors.butterGreen.opacity(0.7))
+                        .foregroundStyle(AppColors.primaryText)
+                        .cornerRadius(12)
                 }
                 .padding(.horizontal)
-                .padding(.vertical, 12)
-                .frame(maxWidth: .infinity)
-                .background(AppColors.butterYellowDark)
-                .foregroundStyle(AppColors.primaryText)
-                .cornerRadius(12)
                 
                 Button(role: .destructive) {
                     showDeleteAlert = true
                 } label: {
                     Text("Görevi Sil")
+                        .fontWeight(.semibold)
                         .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .foregroundStyle(AppColors.primaryText)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(AppColors.butterRed.opacity(0.8))
+                        )
                 }
-                .alert("Bu görevi silmek istediğinize emin misiniz?", isPresented: $showDeleteAlert) {
-                    Button("Sil", role: .destructive) {
-                        onDelete(task)  // ContentView’e bildiriyoruz
-                        dismiss()
-                    }
-                    Button("İptal", role: .cancel) { }
-                }
-                .padding()
+                .padding(.horizontal)
             }
             .padding()
             
+            if showDeleteAlert {
+                Color.black.opacity(0.25)
+                    .ignoresSafeArea()
+                    .transition(.opacity)
+                    .onTapGesture {
+                        withAnimation(.spring(duration: 0.2)) { showDeleteAlert = false }
+                    }
+
+                VStack(spacing: 16) {
+                    Text("\"\(task.title)\" silinsin mi?")
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(AppColors.primaryText)
+                        .padding(.horizontal)
+
+                    HStack(spacing: 12) {
+                        // Cancel
+                        Button {
+                            withAnimation(.spring(duration: 0.2)) {
+                                showDeleteAlert = false
+                            }
+                        } label: {
+                            Text("Hayır")
+                                .fontWeight(.semibold)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                                .foregroundStyle(AppColors.primaryText)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .fill(AppColors.butterRed.opacity(0.9))
+                                )
+                        }
+
+                        // Confirm
+                        Button {
+                            onDelete(task)
+                            dismiss()
+                            withAnimation(.spring(duration: 0.2)) {
+                                showDeleteAlert = false
+                            }
+                        } label: {
+                            Text("Evet")
+                                .fontWeight(.semibold)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                                .foregroundStyle(AppColors.butterYellow)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .fill(AppColors.butterGreen.opacity(0.9))
+                                )
+                        }
+                    }
+                }
+                .padding(16)
+                .background(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(AppColors.butterYellowLight)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(AppColors.primaryText.opacity(0.1), lineWidth: 1)
+                )
+                .padding(.horizontal, 24)
+                .transition(.scale.combined(with: .opacity))
+            }
+ 
         }
     }
     
