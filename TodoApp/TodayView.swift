@@ -4,6 +4,9 @@ struct TodayView: View {
     @Binding var tasks: [Task]
     let storage: TaskStorage
     
+    @State private var pendingTaskToComplete: Task? = nil
+    @State private var showCompleteConfirm: Bool = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -33,13 +36,11 @@ struct TodayView: View {
                         .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.clear)
-                        .swipeActions {
-                            Button {
-                                completeTask(id: task.id)
-                            } label: {
-                                Label("Tamamla", systemImage: "checkmark")
+                        .onTapGesture {
+                            pendingTaskToComplete = task
+                            withAnimation(.spring(duration: 0.25)) {
+                                showCompleteConfirm = true
                             }
-                            .tint(.green)
                         }
                     }
                     
@@ -74,6 +75,74 @@ struct TodayView: View {
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .tint(.black)
+                
+                if showCompleteConfirm, let pTask = pendingTaskToComplete {
+                    Color.black.opacity(0.25)
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                        .onTapGesture {
+                            withAnimation(.spring(duration: 0.2)) { showCompleteConfirm = false }
+                        }
+
+                    VStack(spacing: 16) {
+                        Text("\"\(pTask.title)\" tamamlandı olarak işaretlensin mi?")
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(AppColors.primaryText)
+                            .padding(.horizontal)
+
+                        HStack(spacing: 12) {
+                            // Cancel
+                            Button {
+                                withAnimation(.spring(duration: 0.2)) {
+                                    showCompleteConfirm = false
+                                    pendingTaskToComplete = nil
+                                }
+                            } label: {
+                                Text("Hayır")
+                                    .fontWeight(.semibold)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 10)
+                                    .foregroundStyle(AppColors.primaryText)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                            .fill(Color(red: 0.95, green: 0.45, blue: 0.45).opacity(0.9))
+                                    )
+                            }
+
+                            // Confirm
+                            Button {
+                                if let id = pTask.id as UUID? {
+                                    completeTask(id: id)
+                                }
+                                withAnimation(.spring(duration: 0.2)) {
+                                    showCompleteConfirm = false
+                                    pendingTaskToComplete = nil
+                                }
+                            } label: {
+                                Text("Evet")
+                                    .fontWeight(.semibold)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 10)
+                                    .foregroundStyle(AppColors.butterYellow)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                            .fill(Color(red: 0.32, green: 0.6, blue: 0.36))
+                                    )
+                            }
+                        }
+                    }
+                    .padding(16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(AppColors.butterYellowLight)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .stroke(AppColors.primaryText.opacity(0.1), lineWidth: 1)
+                    )
+                    .padding(.horizontal, 24)
+                    .transition(.scale.combined(with: .opacity))
+                }
             }
             .navigationTitle("Bugün")
             .toolbarBackground(AppColors.butterYellow)
