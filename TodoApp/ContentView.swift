@@ -6,6 +6,11 @@ enum Tab {
 }
 
 struct ContentView: View {
+    init() {
+        UIDatePicker.appearance().tintColor = UIColor(AppColors.primaryText)     // seçici rengini
+        UILabel.appearance(whenContainedInInstancesOf: [UIDatePicker.self]).textColor = UIColor(AppColors.primaryText) // yazı rengini
+    }
+
     @State private var selectedTab = 0
     @State private var showAddSheet = false
     
@@ -95,6 +100,19 @@ extension Date {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
         return formatter.string(from: self)
+    }
+}
+
+extension View {
+    func placeholder<Content: View>(
+        when shouldShow: Bool,
+        alignment: Alignment = .leading,
+        @ViewBuilder placeholder: () -> Content
+    ) -> some View {
+        ZStack(alignment: alignment) {
+            placeholder().opacity(shouldShow ? 1 : 0)
+            self
+        }
     }
 }
 

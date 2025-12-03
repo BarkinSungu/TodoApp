@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA141B7E2EDF2C430055D097 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA141B7D2EDF2C380055D097 /* AppColor.swift */; };
 		DA4E2BA72ECC9B0200784479 /* AllTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BA62ECC9B0200784479 /* AllTasksView.swift */; };
 		DA4E2BA92ECC9B1A00784479 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BA82ECC9B1A00784479 /* TodayView.swift */; };
 		DA4E2BAB2ECC9B2D00784479 /* AddTaskSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BAA2ECC9B2D00784479 /* AddTaskSheetView.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA141B7D2EDF2C380055D097 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		DA4E2BA62ECC9B0200784479 /* AllTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksView.swift; sourceTree = "<group>"; };
 		DA4E2BA82ECC9B1A00784479 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		DA4E2BAA2ECC9B2D00784479 /* AddTaskSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskSheetView.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 		DAEF7C812E5AFFE4001129C0 /* TodoApp */ = {
 			isa = PBXGroup;
 			children = (
+				DA141B7D2EDF2C380055D097 /* AppColor.swift */,
 				DAEF7C822E5AFFE4001129C0 /* TodoAppApp.swift */,
 				DAEF7C842E5AFFE4001129C0 /* ContentView.swift */,
 				DA4E2BA62ECC9B0200784479 /* AllTasksView.swift */,
@@ -159,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA4E2BA72ECC9B0200784479 /* AllTasksView.swift in Sources */,
+				DA141B7E2EDF2C430055D097 /* AppColor.swift in Sources */,
 				DAEF7C852E5AFFE4001129C0 /* ContentView.swift in Sources */,
 				DA4E2BAD2ECC9B3C00784479 /* BottomBar.swift in Sources */,
 				DA4E2BA92ECC9B1A00784479 /* TodayView.swift in Sources */,

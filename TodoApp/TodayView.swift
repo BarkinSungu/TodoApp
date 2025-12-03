@@ -6,33 +6,44 @@ struct TodayView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(getTodaysTasks(tasks: tasks)) { task in
-                    HStack{
-                        Text(task.title)
-                        Spacer()
-                        Text("\(task.duration) dk")
-                            .foregroundColor(.gray)
+            ZStack {
+                AppColors.butterYellow
+                    .ignoresSafeArea()
+                List {
+                    ForEach(getTodaysTasks(tasks: tasks)) { task in
+                        HStack{
+                            Text(task.title)
+                                .foregroundStyle(AppColors.primaryText)
+                            Spacer()
+                            Text("\(task.duration) dk")
+                                .foregroundStyle(AppColors.secondaryText)
+                        }
+                        .swipeActions {
+                            Button {
+                                completeTask(id: task.id)
+                            } label: {
+                                Label("Tamamla", systemImage: "checkmark")
+                            }
+                            .tint(.green)
+                        }
+                        .listRowBackground(AppColors.butterYellowDark)
                     }
                     
-                    .swipeActions {
-                        Button {
-                            completeTask(id: task.id)
-                        } label: {
-                            Label("Tamamla", systemImage: "checkmark")
-                        }
-                        .tint(.green)
+                    ForEach(getCompletedTasks(tasks: tasks)) { task in
+                        Text(task.title)
+                            .strikethrough()
+                            .italic()
+                            .foregroundStyle(AppColors.secondaryText)
+                            .listRowBackground(AppColors.butterYellowDark)
                     }
                 }
-                
-                ForEach(getCompletedTasks(tasks: tasks)) { task in
-                    Text(task.title)
-                        .strikethrough()
-                        .foregroundColor(.gray)
-                        .italic()
-                }
+                .scrollContentBackground(.hidden)
+                .tint(.black)
             }
             .navigationTitle("Bugün")
+            .toolbarBackground(AppColors.butterYellow)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(.light, for: .navigationBar)
         }
     }
     
@@ -99,4 +110,3 @@ struct TodayView: View {
     }
     
 }
-

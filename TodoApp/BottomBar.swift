@@ -13,6 +13,7 @@ struct BottomBar: View {
                     Image(systemName: "sun.max.fill")
                     Text("Bugün").font(.caption)
                 }
+                .foregroundStyle(AppColors.primaryText)
             }
             .frame(maxWidth: .infinity)
             
@@ -21,14 +22,15 @@ struct BottomBar: View {
             } label: {
                 ZStack {
                     Circle()
-                        .foregroundColor(.blue)
+                        .foregroundStyle(AppColors.primaryText)
                         .frame(width: 70, height: 70)
                         .shadow(radius: 4)
                     Image(systemName: "plus")
                         .font(.system(size: 32, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundStyle(AppColors.butterYellow)
                 }
                 .padding(.bottom, 20)
+                .offset(y: -5)
             }
             .frame(maxWidth: .infinity)
             
@@ -39,11 +41,13 @@ struct BottomBar: View {
                     Image(systemName: "list.bullet")
                     Text("Tümü").font(.caption)
                 }
+                .foregroundStyle(AppColors.primaryText)
             }
             .frame(maxWidth: .infinity)
         }
         .padding(.horizontal)
-        .padding(.top, 10)
-        .background(Color(.systemGray6).ignoresSafeArea(edges: .bottom))
+        .padding(.top, -10)
+        .tint(AppColors.primaryText)
+        .background(AppColors.butterYellowDark.ignoresSafeArea(edges: .bottom))
     }
 }

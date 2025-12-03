@@ -7,16 +7,27 @@ struct AllTasksView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(getAllTasks(tasks: tasks)) { task in
-                    Button {
-                        onTaskTap(task)
-                    } label: {
-                        Text(task.title)
+            ZStack {
+                AppColors.butterYellow
+                    .ignoresSafeArea()
+                List {
+                    ForEach(getAllTasks(tasks: tasks)) { task in
+                        Button {
+                            onTaskTap(task)
+                        } label: {
+                            Text(task.title)
+                                .foregroundStyle(AppColors.primaryText)
+                        }
                     }
+                    .listRowBackground(AppColors.butterYellowDark)
                 }
+                .scrollContentBackground(.hidden)
+                .tint(.black)
             }
             .navigationTitle("Tüm Görevler")
+            .toolbarBackground(AppColors.butterYellow)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(.light, for: .navigationBar)
         }
     }
     
