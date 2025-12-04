@@ -11,9 +11,9 @@ struct BottomBar: View {
             } label: {
                 VStack {
                     Image(systemName: "sun.max.fill")
-                    Text("Bugün").font(.caption)
+                        .font(.system(size: 30, weight: .medium))
                 }
-                .foregroundStyle(AppColors.primaryText)
+                .foregroundStyle(AppColors.primaryText.opacity(0.75))
             }
             .frame(maxWidth: .infinity)
             
@@ -39,9 +39,9 @@ struct BottomBar: View {
             } label: {
                 VStack {
                     Image(systemName: "list.bullet")
-                    Text("Tümü").font(.caption)
+                        .font(.system(size: 30, weight: .medium))
                 }
-                .foregroundStyle(AppColors.primaryText)
+                .foregroundStyle(AppColors.primaryText.opacity(0.75))
             }
             .frame(maxWidth: .infinity)
         }

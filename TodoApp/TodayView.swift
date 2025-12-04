@@ -26,7 +26,7 @@ struct TodayView: View {
                         .padding(14)
                         .background(
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(AppColors.butterYellowDark.opacity(0.6))
+                                .fill(AppColors.butterYellowDark.opacity(0.8))
                         )
                         .overlay(
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -50,17 +50,17 @@ struct TodayView: View {
                                 Text(task.title)
                                     .strikethrough()
                                     .italic()
-                                    .foregroundStyle(AppColors.secondaryText)
+                                    .foregroundStyle(AppColors.secondaryText.opacity(0.5))
                                 Spacer()
                                 Text("\(task.duration) dk")
-                                    .foregroundStyle(AppColors.secondaryText)
+                                    .foregroundStyle(AppColors.secondaryText.opacity(0.5))
                                     .italic()
                             }
                         }
                         .padding(14)
                         .background(
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(AppColors.butterYellowDark.opacity(0.45))
+                                .fill(AppColors.butterYellowDark.opacity(0.25))
                         )
                         .overlay(
                             RoundedRectangle(cornerRadius: 10, style: .continuous)

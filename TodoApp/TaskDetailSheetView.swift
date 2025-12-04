@@ -37,7 +37,7 @@ struct TaskDetailSheetView: View {
                     HStack{
                         
                         Text("Sıklık:")
-                            .foregroundStyle(AppColors.secondaryText)
+                            .foregroundStyle(AppColors.primaryText)
                         Menu {
                             ForEach(presetFrequencies) { freq in
                                 Button(freq.title) {
@@ -75,7 +75,7 @@ struct TaskDetailSheetView: View {
                     
                     HStack{
                         Text("Görev Süresi:")
-                            .foregroundStyle(AppColors.secondaryText)
+                            .foregroundStyle(AppColors.primaryText)
                         TextField("Süre (dk)", value: $task.duration, formatter: NumberFormatter())
                             .keyboardType(.numberPad)
                             .foregroundStyle(AppColors.primaryText)
@@ -86,7 +86,7 @@ struct TaskDetailSheetView: View {
                             .cornerRadius(10)
                         Spacer()
                         Text("dk")
-                            .foregroundStyle(AppColors.secondaryText)
+                            .foregroundStyle(AppColors.primaryText)
                     }
                     .padding(.horizontal)
                     
@@ -153,7 +153,6 @@ struct TaskDetailSheetView: View {
                     showDeleteAlert = true
                 } label: {
                     Text("Görevi Sil")
-                        .fontWeight(.semibold)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 10)
                         .foregroundStyle(AppColors.primaryText)

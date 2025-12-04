@@ -3,7 +3,7 @@ import SwiftUI
 public enum AppColors {
     // Text
     public static let primaryText = Color.black
-    public static let secondaryText = Color.black.opacity(0.7)
+    public static let secondaryText = Color.black.opacity(0.5)
 
     // Backgrounds
     // Butter Yellow palette

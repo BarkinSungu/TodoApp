@@ -33,7 +33,7 @@ struct AllTasksView: View {
                                 .stroke(AppColors.primaryText.opacity(0.08), lineWidth: 1)
                         )
                         .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
-                        .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
+                        .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 2, trailing: 0))
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.clear)
                     }
