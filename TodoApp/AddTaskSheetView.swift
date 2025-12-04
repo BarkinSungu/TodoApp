@@ -7,6 +7,7 @@ struct AddTaskSheetView: View {
     @State private var selectedFrequency: Frequency? = nil
     @State private var duration: Int = 0
     @State private var customDays: String = ""
+    @FocusState private var isFocused: Bool
     var onAdd: (String, Int, DateComponents, Date) -> Void
 
     var body: some View {
@@ -19,6 +20,7 @@ struct AddTaskSheetView: View {
                     .foregroundStyle(AppColors.primaryText)
 
                 TextField("", text: $titleText)
+                    .focused($isFocused)
                     .placeholder(when: titleText.isEmpty){
                         Text("Görev başlığı")
                             .foregroundStyle(AppColors.secondaryText)
@@ -112,6 +114,11 @@ struct AddTaskSheetView: View {
                 }
                 .padding(.horizontal)               
 
+            }
+            .onAppear {
+                DispatchQueue.main.async {
+                    isFocused = true
+                }
             }
             .padding()
             .tint(AppColors.primaryText)
