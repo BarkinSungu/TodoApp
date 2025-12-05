@@ -6,6 +6,8 @@ struct TodayView: View {
     
     @State private var pendingTaskToComplete: Task? = nil
     @State private var showCompleteConfirm: Bool = false
+    @State private var showCelebration = false
+    @State private var showSuccessBanner = false
     
     var body: some View {
         NavigationStack {
@@ -75,6 +77,36 @@ struct TodayView: View {
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .tint(.black)
+                
+                // Celebration overlays
+                if showCelebration {
+                    ConfettiOverlay()
+                        .transition(.opacity)
+                        .ignoresSafeArea()
+                }
+                if showSuccessBanner {
+                    VStack {
+                        HStack(spacing: 12) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.white)
+                                .imageScale(.large)
+                            Text("Bugünkü tüm görevlerini tamamladın!")
+                                .foregroundStyle(.white)
+                                .font(.headline)
+                        }
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .fill(Color.green.opacity(0.95))
+                                .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
+                        )
+                        .padding(.top, 8)
+                        Spacer()
+                    }
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showSuccessBanner)
+                }
                 
                 if showCompleteConfirm, let pTask = pendingTaskToComplete {
                     Color.black.opacity(0.25)
@@ -159,7 +191,12 @@ struct TodayView: View {
             tasks[index].totalDoneCount = tasks[index].totalDoneCount + 1
             storage.saveTasks(tasks)
             NotificationManager.shared.scheduleNotifications(tasks)
-//            print(tasks)
+            
+            DispatchQueue.main.async {
+                if allTodayTasksCompleted() {
+                    triggerCelebration()
+                }
+            }
         }
     }
     
@@ -214,4 +251,88 @@ struct TodayView: View {
         }
     }
     
+    private func allTodayTasksCompleted() -> Bool {
+        let pending = getTodaysTasks(tasks: tasks)
+        return pending.isEmpty
+    }
+
+    private func triggerCelebration() {
+        guard !showCelebration && !showSuccessBanner else { return }
+        withAnimation(.easeIn(duration: 0.2)) {
+            showCelebration = true
+            showSuccessBanner = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation(.easeOut(duration: 0.4)) {
+                showSuccessBanner = false
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            withAnimation(.easeOut(duration: 0.6)) {
+                showCelebration = false
+            }
+        }
+    }
+    
+}
+
+fileprivate struct ConfettiOverlay: View {
+    @State private var particles: [ConfettiParticle] = (0..<40).map { _ in ConfettiParticle() }
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack {
+                ForEach(particles.indices, id: \.self) { i in
+                    let p = particles[i]
+                    ConfettiShape()
+                        .fill(p.color)
+                        .frame(width: p.size, height: p.size)
+                        .rotationEffect(.degrees(p.rotation))
+                        .position(x: p.x * geo.size.width, y: p.y * geo.size.height)
+                        .opacity(p.opacity)
+                        .animation(
+                            .interpolatingSpring(stiffness: 15, damping: 8).delay(p.delay),
+                            value: particles
+                        )
+                }
+            }
+            .onAppear {
+                for i in particles.indices {
+                    particles[i].x = Double.random(in: 0.05...0.95)
+                    particles[i].y = -0.1
+                    particles[i].opacity = 0
+                    particles[i].rotation = Double.random(in: -30...30)
+                    particles[i].delay = Double.random(in: 0...0.3)
+                }
+                DispatchQueue.main.async {
+                    for i in particles.indices {
+                        particles[i].y = 1.2
+                        particles[i].opacity = 1
+                        particles[i].rotation += Double.random(in: 180...720)
+                    }
+                }
+            }
+        }
+        .allowsHitTesting(false)
+    }
+}
+
+fileprivate struct ConfettiParticle: Equatable {
+    var x: Double = 0.5
+    var y: Double = 0
+    var size: CGFloat = CGFloat.random(in: 8...14)
+    var color: Color = [Color.green, Color.mint, Color.cyan, Color.yellow, Color.orange].randomElement()!
+    var rotation: Double = 0
+    var opacity: Double = 1
+    var delay: Double = 0
+}
+
+fileprivate struct ConfettiShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var p = Path()
+        let w = rect.width
+        let h = rect.height
+        p.addRoundedRect(in: CGRect(x: 0, y: 0, width: w, height: h), cornerSize: CGSize(width: w*0.3, height: h*0.3))
+        return p
+    }
 }
