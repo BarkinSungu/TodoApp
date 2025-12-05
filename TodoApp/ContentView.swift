@@ -67,6 +67,7 @@ struct ContentView: View {
         .onAppear {
             tasks = storage.loadTasks()
             //            print(tasks)
+            createFirstTask()
             NotificationManager.shared.scheduleNotifications(tasks)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
@@ -97,6 +98,14 @@ struct ContentView: View {
         viewId = UUID()
         //        print(tasks)
         NotificationManager.shared.scheduleNotifications(tasks)
+    }
+    
+    func createFirstTask(){
+        if tasks.isEmpty{
+            let today = Calendar.current.startOfDay(for: Date())
+            tasks.append(Task(title: "Uygulamayı indir!", lastCompletedDate: today, frequency: DateComponents(day:0), duration: 5, nextTime: today, totalTime: 0, totalDoneCount: 0))
+            storage.saveTasks(tasks)
+        }
     }
 }
 
