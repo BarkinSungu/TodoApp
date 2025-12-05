@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 enum Tab {
     case today
@@ -10,7 +11,7 @@ struct ContentView: View {
         UIDatePicker.appearance().tintColor = UIColor(AppColors.primaryText)     // seçici rengini
         UILabel.appearance(whenContainedInInstancesOf: [UIDatePicker.self]).textColor = UIColor(AppColors.primaryText) // yazı rengini
     }
-
+    
     @State private var selectedTab = 0
     @State private var showAddSheet = false
     
@@ -65,7 +66,8 @@ struct ContentView: View {
         }
         .onAppear {
             tasks = storage.loadTasks()
-            print(tasks)
+            //            print(tasks)
+            NotificationManager.shared.scheduleNotifications(tasks)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
@@ -78,6 +80,7 @@ struct ContentView: View {
         if let index = tasks.firstIndex(where: { $0.id == updatedTask.id }) {
             tasks[index] = updatedTask
             storage.saveTasks(tasks)
+            NotificationManager.shared.scheduleNotifications(tasks)
         }
     }
     
@@ -85,13 +88,15 @@ struct ContentView: View {
         if let index = tasks.firstIndex(where: { $0.id == task.id }) {
             tasks.remove(at: index)
             storage.saveTasks(tasks)
+            NotificationManager.shared.scheduleNotifications(tasks)
         }
     }
     
     private func refresh() {
         tasks = storage.loadTasks()
         viewId = UUID()
-        print(tasks)
+        //        print(tasks)
+        NotificationManager.shared.scheduleNotifications(tasks)
     }
 }
 
@@ -115,4 +120,3 @@ extension View {
         }
     }
 }
-

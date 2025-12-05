@@ -158,7 +158,8 @@ struct TodayView: View {
             tasks[index].totalTime = tasks[index].totalTime + tasks[index].duration
             tasks[index].totalDoneCount = tasks[index].totalDoneCount + 1
             storage.saveTasks(tasks)
-            print(tasks)
+            NotificationManager.shared.scheduleNotifications(tasks)
+//            print(tasks)
         }
     }
     

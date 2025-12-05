@@ -14,6 +14,7 @@
 		DA4E2BAD2ECC9B3C00784479 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BAC2ECC9B3C00784479 /* BottomBar.swift */; };
 		DA4E2BAF2ECC9B5900784479 /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BAE2ECC9B5900784479 /* TaskModel.swift */; };
 		DA4E2BB12ECCA8B800784479 /* TaskStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2BB02ECCA8B800784479 /* TaskStorage.swift */; };
+		DA8252B32EE1C230000E41CC /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8252B22EE1C230000E41CC /* NotificationManager.swift */; };
 		DAA047B82ECE0713000561DD /* TaskDetailSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA047B72ECE0713000561DD /* TaskDetailSheetView.swift */; };
 		DAEF7C832E5AFFE4001129C0 /* TodoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEF7C822E5AFFE4001129C0 /* TodoAppApp.swift */; };
 		DAEF7C852E5AFFE4001129C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEF7C842E5AFFE4001129C0 /* ContentView.swift */; };
@@ -29,6 +30,7 @@
 		DA4E2BAC2ECC9B3C00784479 /* BottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
 		DA4E2BAE2ECC9B5900784479 /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		DA4E2BB02ECCA8B800784479 /* TaskStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStorage.swift; sourceTree = "<group>"; };
+		DA8252B22EE1C230000E41CC /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		DAA047B72ECE0713000561DD /* TaskDetailSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailSheetView.swift; sourceTree = "<group>"; };
 		DAEF7C7F2E5AFFE4001129C0 /* TodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEF7C822E5AFFE4001129C0 /* TodoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppApp.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				DAA047B72ECE0713000561DD /* TaskDetailSheetView.swift */,
 				DAEF7C862E5AFFE6001129C0 /* Assets.xcassets */,
 				DAEF7C882E5AFFE6001129C0 /* Preview Content */,
+				DA8252B22EE1C230000E41CC /* NotificationManager.swift */,
 			);
 			path = TodoApp;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 				DA141B7E2EDF2C430055D097 /* AppColor.swift in Sources */,
 				DAEF7C852E5AFFE4001129C0 /* ContentView.swift in Sources */,
 				DA4E2BAD2ECC9B3C00784479 /* BottomBar.swift in Sources */,
+				DA8252B32EE1C230000E41CC /* NotificationManager.swift in Sources */,
 				DA4E2BA92ECC9B1A00784479 /* TodayView.swift in Sources */,
 				DAA047B82ECE0713000561DD /* TaskDetailSheetView.swift in Sources */,
 				DA4E2BB12ECCA8B800784479 /* TaskStorage.swift in Sources */,
