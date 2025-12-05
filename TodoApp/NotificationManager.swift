@@ -16,25 +16,6 @@ final class NotificationManager {
         }
     }
     
-    //    func clearPendingForToday() {
-    //        let center = UNUserNotificationCenter.current()
-    //        center.getPendingNotificationRequests { requests in
-    //            let calendar = Calendar.current
-    //            let today = calendar.startOfDay(for: Date())
-    //            let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
-    //
-    //            let idsToRemove = requests.compactMap { req -> String? in
-    //                guard let trigger = req.trigger as? UNCalendarNotificationTrigger,
-    //                      let next = trigger.nextTriggerDate() else { return nil }
-    //                if next >= today && next < tomorrow { return req.identifier }
-    //                return nil
-    //            }
-    //            if !idsToRemove.isEmpty {
-    //                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: idsToRemove)
-    //            }
-    //        }
-    //    }
-    
     func clearAllNotifications() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
@@ -104,24 +85,7 @@ final class NotificationManager {
         let start = calendar.startOfDay(for: Date())
         return (0..<count).compactMap { calendar.date(byAdding: .day, value: $0, to: start) }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+       
     private func todaysPendingTasks(_ tasks:[Task]) -> [Task] {
         let today = todayDateOnly()
         return tasks.filter { task in
@@ -169,7 +133,7 @@ final class NotificationManager {
         NotificationManager.shared.clearAllNotifications()
         scheduleNotificationsForToday(tasks)
         scheduleNextMorningNotifications(tasks)
-        NotificationManager.shared.getNotificationsFromNotificationsCenter()
+//        NotificationManager.shared.getNotificationsFromNotificationsCenter()
     }
     
     func scheduleNotificationsForToday(_ tasks:[Task]) {

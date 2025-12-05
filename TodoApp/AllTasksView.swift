@@ -46,6 +46,20 @@ struct AllTasksView: View {
             .toolbarBackground(AppColors.butterYellow)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.light, for: .navigationBar)
+         
+//            Tüm listeyi sıfırlama butonu
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button(action: {
+//                        tasks.removeAll()
+//                        storage.saveTasks(tasks)
+//                    }) {
+//                        Text("Sil")
+//                    }
+//                }
+//            }
+            
+            
         }
     }
     

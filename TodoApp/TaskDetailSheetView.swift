@@ -118,6 +118,9 @@ struct TaskDetailSheetView: View {
                         selection: $task.nextTime, in: Date()...,
                         displayedComponents: .date
                     )
+                    .onChange(of: task.nextTime) { newValue in
+                        task.nextTime = Calendar.current.startOfDay(for: newValue)
+                    }
                     .foregroundStyle(AppColors.primaryText)
                     .datePickerStyle(.compact)
                     .padding(.horizontal)
