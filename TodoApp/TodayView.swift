@@ -77,6 +77,9 @@ struct TodayView: View {
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .tint(.black)
+                .safeAreaInset(edge: .bottom) {
+                    Color.clear.frame(height: 66)
+                }
                 
                 // Celebration overlays
                 if showCelebration {
@@ -175,6 +178,19 @@ struct TodayView: View {
                     .padding(.horizontal, 24)
                     .transition(.scale.combined(with: .opacity))
                 }
+                
+                VStack {
+                    Spacer()
+                    AdBannerView(adUnitID: "ca-app-pub-3940256099942544/2934735716")
+                        .frame(height: 50)
+                        .padding(.bottom, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .fill(AppColors.butterYellowDark.opacity(0.2))
+                        )
+                        .padding(.horizontal, 16)
+                }
+                .ignoresSafeArea(edges: .bottom)
             }
             .navigationTitle("Bugün")
             .toolbarBackground(AppColors.butterYellow)

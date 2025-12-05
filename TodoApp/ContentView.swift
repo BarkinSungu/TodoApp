@@ -103,7 +103,7 @@ struct ContentView: View {
     func createFirstTask(){
         if tasks.isEmpty{
             let today = Calendar.current.startOfDay(for: Date())
-            tasks.append(Task(title: "Uygulamayı indir!", lastCompletedDate: today, frequency: DateComponents(day:0), duration: 5, nextTime: today, totalTime: 0, totalDoneCount: 0))
+            tasks.append(Task(title: "Organizer'ı indir!", lastCompletedDate: today, frequency: DateComponents(day:0), duration: 5, nextTime: today, totalTime: 0, totalDoneCount: 0))
             storage.saveTasks(tasks)
         }
     }
