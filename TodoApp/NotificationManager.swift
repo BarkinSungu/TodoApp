@@ -133,7 +133,7 @@ final class NotificationManager {
         NotificationManager.shared.clearAllNotifications()
         scheduleNotificationsForToday(tasks)
         scheduleNextMorningNotifications(tasks)
-//        NotificationManager.shared.getNotificationsFromNotificationsCenter()
+        NotificationManager.shared.getNotificationsFromNotificationsCenter()
     }
     
     func scheduleNotificationsForToday(_ tasks:[Task]) {
@@ -144,34 +144,59 @@ final class NotificationManager {
             return
         }
         
-        // Build schedule: 09:00 plus offsets (3h, 6h, 9h, ...) from now, capped at 23:00
-        var dates: [Date] = []
-        if let nine = NotificationManager.shared.date(atHour: 9, minute: 0) {
-            // If it's still in the future, include it
-            if nine > Date() { dates.append(nine) }
+        var hasReminders: [Task] = []
+        var nonReminders: [Task] = []
+        for task in pending{
+            if task.haveReminder {
+                hasReminders.append(task)
+            }else{
+                nonReminders.append(task)
+            }
         }
         
-        let now = Date()
-        let calendar = Calendar.current
-        let endOfDay = calendar.date(bySettingHour: 23, minute: 0, second: 0, of: todayDateOnly())!
+        var dates: [Date] = []
         
-        var offsetHours = 3
-        while true {
-            if let next = calendar.date(byAdding: .hour, value: offsetHours, to: now) {
-                if next <= endOfDay {
-                    dates.append(next)
-                    offsetHours += 3
-                    continue
+        if !nonReminders.isEmpty {
+            let now = Date()
+            let calendar = Calendar.current
+            let endOfDay = calendar.date(bySettingHour: 23, minute: 0, second: 0, of: todayDateOnly())!
+            
+            var offsetHours = 3
+            while true {
+                if let next = calendar.date(byAdding: .hour, value: offsetHours, to: now) {
+                    if next <= endOfDay {
+                        dates.append(next)
+                        offsetHours += 3
+                        continue
+                    }
+                }
+                break
+            }
+            
+            let count = nonReminders.count
+            let title = "Yapılacak Görevler"
+            let body = count == 1 ? "Bugün 1 görevin var. Hadi tamamla!" : "Bugün \(count) görevin var. Hadi tamamla!"
+            
+            scheduleNotifications(title: title, body: body, dates: dates)
+        }
+        
+        if !hasReminders.isEmpty {
+            for task in hasReminders {
+                if var comps = task.reminderTime {
+                    let now = Date()
+                    let calendar = Calendar.current
+
+                    comps.year = comps.year ?? calendar.component(.year, from: now)
+                    comps.month = comps.month ?? calendar.component(.month, from: now)
+                    comps.day = comps.day ?? calendar.component(.day, from: now)
+
+                    if let date = calendar.date(from: comps) {
+                        scheduleNotifications(title: "Hatırlatıcı:", body: "\(task.title)", dates: [date])
+                    }
                 }
             }
-            break
         }
         
-        let count = pending.count
-        let title = "Yapılacak Görevler"
-        let body = count == 1 ? "Bugün 1 görevin var. Hadi tamamla!" : "Bugün \(count) görevin var. Hadi tamamla!"
-        
-        NotificationManager.shared.scheduleNotifications(title: title, body: body, dates: dates)
     }
     
     func scheduleNextMorningNotifications(_ tasks:[Task]) {
@@ -193,6 +218,40 @@ final class NotificationManager {
             bodyForCount: bodyForCount,
             pendingCountForDate: pendingCountForDate
         )
+        
+        for date in dates {
+            let tasks = pendingTasks(on: date, tasks)
+            
+            for task in tasks{
+                if task.haveReminder {
+                    let calendar = Calendar.current
+                    
+                    if let comps = task.reminderTime,
+                       let hour = comps.hour,
+                       let minute = comps.minute
+                    {
+                        // Bugünün tarihini al
+                        let today = Date()
+                        
+                        // Bugünün tarihine hour/minute bindir
+                        if let newDate = calendar.date(
+                            bySettingHour: hour,
+                            minute: minute,
+                            second: 0,
+                            of: date
+                        ) {
+                            scheduleNotifications(
+                                title: "Hatırlatıcı:",
+                                body: task.title,
+                                dates: [newDate]
+                            )
+                        }
+                    }
+                    
+                }
+                
+            }
+        }
     }
     
     
