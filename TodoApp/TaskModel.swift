@@ -9,8 +9,10 @@ struct Task: Identifiable, Hashable, Codable {
     var nextTime: Date
     var totalTime: Int
     var totalDoneCount: Int
+    var haveReminder: Bool
+    var reminderTime: DateComponents?
     
-    init(title: String, lastCompletedDate: Date?, frequency: DateComponents, duration: Int, nextTime: Date, totalTime: Int, totalDoneCount: Int) {
+    init(title: String, lastCompletedDate: Date?, frequency: DateComponents, duration: Int, nextTime: Date, totalTime: Int, totalDoneCount: Int, haveReminder: Bool = false, reminderTime: DateComponents? = nil) {
         self.id = UUID()
         self.title = title
         self.lastCompletedDate = lastCompletedDate
@@ -19,6 +21,8 @@ struct Task: Identifiable, Hashable, Codable {
         self.nextTime = nextTime
         self.totalTime = totalTime
         self.totalDoneCount = totalDoneCount
+        self.haveReminder = haveReminder
+        self.reminderTime = reminderTime
     }
 }
 
@@ -41,4 +45,3 @@ let presetFrequencies: [Frequency] = [
     .init(title: "Yılda Bir", dateComponents: DateComponents(year:1), isCustom: false),
     .init(title: "Özel", dateComponents: DateComponents(day:0), isCustom: true),
 ]
-

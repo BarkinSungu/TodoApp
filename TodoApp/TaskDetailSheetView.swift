@@ -7,6 +7,7 @@ struct TaskDetailSheetView: View {
     @State private var showDeleteAlert = false
     @State private var selectedFrequency: Frequency? = nil
     @State private var customDays: String = ""
+    @State private var reminderClock: Date = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
     var onDelete: (Task) -> Void
     
     var onSave: (Task) -> Void
@@ -71,6 +72,10 @@ struct TaskDetailSheetView: View {
                     .padding(.horizontal)
                     .onAppear {
                         getFreq()
+                        if let comps = task.reminderTime,
+                        let date = Calendar.current.date(from: comps) {
+                            reminderClock = date
+                        }
                     }
                     
                     HStack{
@@ -112,6 +117,29 @@ struct TaskDetailSheetView: View {
                             .italic()
                             .padding(.horizontal)
                     }
+                    
+                    Toggle(isOn: $task.haveReminder) {
+                        Text("Hatırlatıcı")
+                            .foregroundStyle(AppColors.primaryText)
+                    }
+                    .padding(.horizontal)
+                    .tint(AppColors.primaryText)
+
+                    if task.haveReminder {
+                        DatePicker(
+                            "Hatırlatma Saati",
+                            selection: $reminderClock,
+                            displayedComponents: .hourAndMinute
+                        )
+                        .onChange(of: reminderClock) { newValue in
+                            task.reminderTime = Calendar.current.dateComponents([.hour, .minute], from: newValue)
+                        }
+                        .foregroundStyle(AppColors.primaryText)
+                        .datePickerStyle(.compact)
+                        .padding(.horizontal)
+                        .tint(AppColors.primaryText)
+                    }
+
                     
                     DatePicker(
                         "Sonraki Yapılma Tarihi",
@@ -272,3 +300,4 @@ struct TaskDetailSheetView: View {
         
     }
 }
+

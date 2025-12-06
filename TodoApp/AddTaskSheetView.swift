@@ -7,8 +7,10 @@ struct AddTaskSheetView: View {
     @State private var selectedFrequency: Frequency? = nil
     @State private var duration: Int = 0
     @State private var customDays: String = ""
+    @State private var haveReminder: Bool = false
+    @State private var reminderClock: Date = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
     @FocusState private var isFocused: Bool
-    var onAdd: (String, Int, DateComponents, Date) -> Void
+    var onAdd: (String, Int, DateComponents, Date, Bool, DateComponents?) -> Void
 
     var body: some View {
         ZStack {
@@ -83,6 +85,25 @@ struct AddTaskSheetView: View {
                 }
                 .padding(.horizontal)
 
+                Toggle(isOn: $haveReminder) {
+                    Text("Hatırlatıcı")
+                        .foregroundStyle(AppColors.primaryText)
+                }
+                .padding(.horizontal)
+                .tint(AppColors.primaryText)
+
+                if haveReminder {
+                    DatePicker(
+                        "Hatırlatma Saati",
+                        selection: $reminderClock,
+                        displayedComponents: .hourAndMinute
+                    )
+                    .foregroundStyle(AppColors.primaryText)
+                    .datePickerStyle(.compact)
+                    .padding(.horizontal)
+                    .tint(AppColors.primaryText)
+                }
+
                 DatePicker(
                     "Sonraki Yapılma Tarihi",
                     selection: $nextTime, in: Date()...,
@@ -105,7 +126,8 @@ struct AddTaskSheetView: View {
                         }
                     }
                     let next: Date = nextTime
-                    onAdd(titleText, duration, freq, next)
+                    let reminderComponents: DateComponents? = haveReminder ? Calendar.current.dateComponents([.hour, .minute], from: reminderClock) : nil
+                    onAdd(titleText, duration, freq, next, haveReminder, reminderComponents)
                     dismiss()
                 } label :{
                     Text("Ekle")

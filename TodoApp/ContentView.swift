@@ -57,8 +57,8 @@ struct ContentView: View {
             )
         }
         .sheet(isPresented: $showAddSheet) {
-            AddTaskSheetView { title, duration, frequency, nextTime in
-                let newTask = Task(title: title, lastCompletedDate: nil, frequency: frequency, duration: duration, nextTime: nextTime, totalTime: 0, totalDoneCount: 0)
+            AddTaskSheetView { title, duration, frequency, nextTime, haveReminder, reminderTime in
+                let newTask = Task(title: title, lastCompletedDate: nil, frequency: frequency, duration: duration, nextTime: nextTime, totalTime: 0, totalDoneCount: 0, haveReminder: haveReminder, reminderTime: reminderTime)
                 tasks.append(newTask)
                 storage.saveTasks(tasks)
                 refresh()
@@ -96,7 +96,7 @@ struct ContentView: View {
     private func refresh() {
         tasks = storage.loadTasks()
         viewId = UUID()
-        //        print(tasks)
+        print(tasks)
         NotificationManager.shared.scheduleNotifications(tasks)
     }
     
